@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+		<head>
+		<meta charset="utf-8">
+		<title>Aeroplane Game</title>
+		<link rel="stylesheet" href="style.css">
+		<script type="application/javascript">
+		var image_object = null;
+		var animate;
+		
+		function init(){
+               image_object = document.getElementById('plane');
+               image_object.style.position= 'relative'; 
+               image_object.style.left = '400px';
+				image_object.style.top = '250px'; 
+				image_object.style.width='8%';
+            }
+			
+			 function moveUP(){
+				stop();
+				image_object.style.top = parseInt(image_object.style.top) + 1 + 'px';               
+
+			   if (parseInt(image_object.style.top)<540)
+			   {
+				animate = setTimeout(moveUP,5); // call moveRight in 20msec
+
+			   }
+			   
+			   
+               	
+            }
+			
+			function moveDOWN(){
+				stop();
+               image_object.style.top = parseInt(image_object.style.top) - 1 + 'px';
+               if (parseInt(image_object.style.top)>10)
+			   {
+               	animate = setTimeout(moveDOWN,5); // call moveRight in 20msec
+			   }
+            }
+            
+            function stop(){
+               clearTimeout(animate);
+            }
+            
+			function get_position()
+			{
+				
+				//elem.style.animationPlayState= 'paused';	
+
+				 // alert("Top/Left: "+r.top+" / "+r.left)	
+				//elem.style.animationPlayState= 'running';
+			 // alert("Right/Bottom: "+r.right+" / "+r.bottom)
+	//			alert("called");
+			while (true)
+			{
+				var obs1 = document.getElementById('obstacle1');
+				var obs1_x = obs1.getBoundingClientRect();	
+			
+				var plane = document.getElementById('plane');
+				var plane_x = plane.getBoundingClientRect();	
+				
+				if ((parseInt(obs1_x.left)==parseInt(plane_x.left)))
+				{
+					alert ("crash");
+				alert ("Plane: "+plane_x.left+" : " +plane_x.top);
+				alert ("OBS: "+obs1_x.left+" : " +obs1_x.top);
+	
+					break;
+				}
+					
+			}
+			 
+			 
+			 
+			}
+
+			
+            window.onload =init;
+			
+		</script>
+		</head>
+
+		<body>
+<div class="obstacle_div" style="position:absolute; top:100px" id="div1"> <img src="wall.jpg" width="30%" id="obstacle1"> </div>
+<div class="obstacle_div1" style="position:absolute; top:350px"> <img src="wall.jpg" width="30%" id="obstacle12"> </div>
+<div class="obstacle_div2" style="position:absolute; top:570px"> <img src="wall.jpg" width="10%" id="obstacle3"> </div>
+
+<!--Randome moving objects-->
+<div class="obstacle_div3" style="position:absolute; top:10px"> <img src="rocket.png" width="7%" id="obstacle4"> </div>
+<div class="obstacle_div4" style="position:absolute; top:10px"> <img src="bomb.png" width="10%" id="obstacle5"> </div>
+
+
+
+<div id="moving_div"> <img src="object-1.png" id="plane"> </div>
+<div align="center" style="padding-top: 5px">
+          <form name="buttons_frame">
+    <input type="button" name="up" value="           UP           " onClick="moveDOWN()" />
+    &nbsp;
+    <input type="button" name="down" value="           DOWN           " onClick="moveUP()" />
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="button" name="up" value="           STOP           " onClick="stop()" />
+  </form>
+        </div>
+</body>
+</html>
