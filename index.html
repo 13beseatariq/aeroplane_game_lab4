@@ -7,13 +7,22 @@
 		<script type="application/javascript">
 		var image_object = null;
 		var animate;
-		
+		var obs1;
+		var obs2;
 		function init(){
-               image_object = document.getElementById('plane');
-               image_object.style.position= 'relative'; 
-               image_object.style.left = '400px';
-				image_object.style.top = '250px'; 
+                image_object = document.getElementById('plane');
+			    obs1  = document.getElementById('obstacle1');		
+			    obs2  = document.getElementById('obstacle2');		
+                image_object.style.position= 'relative'; 
+                image_object.style.left = '400px';
+				image_object.style.top = '100px'; 
 				image_object.style.width='8%';
+				obs1.style.position= 'relative';
+				obs1.style.top = '100px'; 
+				obs1.style.left='1300px';
+				obs2.style.position= 'relative';
+				obs2.style.top = '400px'; 
+				obs2.style.left='1300px';
             }
 			
 			 function moveUP(){
@@ -42,53 +51,81 @@
             function stop(){
                clearTimeout(animate);
             }
+			
+			
             
-			function get_position()
-			{
-				
-				//elem.style.animationPlayState= 'paused';	
 
-				 // alert("Top/Left: "+r.top+" / "+r.left)	
-				//elem.style.animationPlayState= 'running';
-			 // alert("Right/Bottom: "+r.right+" / "+r.bottom)
-	//			alert("called");
-			while (true)
-			{
-				var obs1 = document.getElementById('obstacle1');
-				var obs1_x = obs1.getBoundingClientRect();	
-			
+
+			setInterval(function(){				
+			  	var obs1  = document.getElementById('obstacle1');	
+				var obs2  = document.getElementById('obstacle2');	
+				var obs1_c = obs1.getBoundingClientRect();	
+				var obs2_c = obs2.getBoundingClientRect();	
 				var plane = document.getElementById('plane');
-				var plane_x = plane.getBoundingClientRect();	
+				var plane_c = plane.getBoundingClientRect();	
 				
-				if ((parseInt(obs1_x.left)==parseInt(plane_x.left)))
+						
+				var collide =false;
+				var overlap = !(plane_c.right<obs1_c.left || plane_c.left > obs1_c.right || plane_c.bottom < obs1_c.top ||plane_c.top > obs1_c.bottom)
+				if (overlap==true)
 				{
-					alert ("crash");
-				alert ("Plane: "+plane_x.left+" : " +plane_x.top);
-				alert ("OBS: "+obs1_x.left+" : " +obs1_x.top);
-	
-					break;
+						collide=true;
+						console.log("crash");
+						stop();
 				}
-					
-			}
-			 
-			 
-			 
-			}
-
+				else
+				{
+					if (collide==false)
+					{
+						obs1.style.left = parseInt(obs1.style.left) - 10 + 'px'; 
+						boundary_check();
+					}
+				}
+				
+				
+				var overlap1 = !(plane_c.right<obs2_c.left || plane_c.left > obs2_c.right || plane_c.bottom < obs2_c.top ||plane_c.top > obs2_c.bottom)
+				if (overlap1==true)
+				{
+					collide=true;
+					console.log("crash1");
+					stop();
+				}
+				else
+				{
+					if (collide==false)
+					{
+						obs2.style.left = parseInt(obs2.style.left) - 5 + 'px'; 
+						boundary_check();
+					}
+				}
+				
+				},33);
 			
+
+
+				function boundary_check()
+				{
+					 var obs1  = document.getElementById('obstacle1');		
+					if (parseInt(obs1.style.left)<-100)
+			   		{
+               			obs1.style.left='1300px';
+			   		}
+
+					var obs2  = document.getElementById('obstacle2');		
+					if (parseInt(obs2.style.left)<-100)
+			   		{
+               			obs2.style.left='1300px';
+			   		}					
+				}
+	
             window.onload =init;
 			
 		</script>
 		</head>
 
 		<body>
-<div class="obstacle_div" style="position:absolute; top:100px" id="div1"> <img src="wall.jpg" width="30%" id="obstacle1"> </div>
-<div class="obstacle_div1" style="position:absolute; top:350px"> <img src="wall.jpg" width="30%" id="obstacle12"> </div>
-<div class="obstacle_div2" style="position:absolute; top:570px"> <img src="wall.jpg" width="10%" id="obstacle3"> </div>
-
-<!--Randome moving objects-->
-<div class="obstacle_div3" style="position:absolute; top:10px"> <img src="rocket.png" width="7%" id="obstacle4"> </div>
-<div class="obstacle_div4" style="position:absolute; top:10px"> <img src="bomb.png" width="10%" id="obstacle5"> </div>
+<div style="position:absolute;"> <img src="wall.jpg" width="30%" id="obstacle1"> </div>
+<div  style="position:absolute;"> <img src="wall.jpg" width="30%" id="obstacle2"> </div>
 
 
 
